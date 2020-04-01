@@ -1,0 +1,4 @@
+
+<h1> Welcome {{username}} </h1>
+<h3> Connected users : </h3>
+<p (click)="onUserClick(user)" *ngFor='let user of connectedUsers'> {{user.username}}</p>
