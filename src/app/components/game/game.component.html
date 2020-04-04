@@ -1,1 +1,9 @@
-<p>game works!</p>
+<div class="attacker" #egg 
+    (mousedown)="startSending($event)" 
+    (mouseup)="stopSending($event)"
+    (mouseleave)="stopSending($event)"></div>
+
+<!-- [ngClass]="{'red': isAttacker, 'blue': !isAttacker}" -->
+<div class="defender" #egg2></div>
+<!-- </div> -->
+<button (click)='printEgg()'>click</button>

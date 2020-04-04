@@ -1,1 +1,27 @@
-//
+.attacker {
+  height: 150px;
+  width: 100px;
+  border-radius: 50%;
+  left: 45%;
+  cursor: pointer;
+  position:absolute;
+  background-color: rgb(105, 20, 20);
+}
+
+.defender {
+  height: 150px;
+  width: 100px;
+  background-color: rgb(55, 23, 107);
+  border-radius: 50%;
+  left: 45%;
+  top: 65%;
+  position:absolute;
+}
+
+.red {
+  background-color: rgb(105, 20, 20);
+}
+
+.blue {
+  background-color: rgb(55, 23, 107);
+}

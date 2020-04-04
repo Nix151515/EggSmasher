@@ -15,7 +15,10 @@ export class WelcomePageComponent implements OnInit {
     public router: Router,
     public usersService: UsersService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    localStorage.removeItem('username');
+    localStorage.removeItem('opponent');
+   }
 
   setUsername() {
     localStorage.setItem('username', this.username);

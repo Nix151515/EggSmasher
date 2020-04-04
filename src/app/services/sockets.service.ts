@@ -36,21 +36,33 @@ export class SocketsService {
     });
   }
 
+/* Invitations */
 
+  
+  /* Send your request to server */
+  public sendRequestToPlayer(dest: string, data: any): void {
+    this.socket.emit('request', { dest, data });
+  }
 
+  /* Listen to requests */
+  public onRequestReceived(): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('request', (data: any) => observer.next(data));
+    });
+  }
 
   /* Mouse tracking sockets */
-
+  
   /* Send your mouse to server */
-  public sendDataToPlayer(dest: string, data: any): void {
-    this.socket.emit('gameInfo', {dest, data});
+  public sendMouseMove(dest: string, data: any): void {
+    this.socket.emit('mouse_move', { dest, data });
   }
 
   /* Listen to move movements */
-  public onDataReceived(): Observable<any> {
+  public onMouseReceived(): Observable<any> {
     return new Observable<any>(observer => {
       // if socket id ( getSession  ==  observer.sessionId)
-      this.socket.on('gameInfo', (data: any) => observer.next(data));
+      this.socket.on('mouse_move', (data: any) => observer.next(data));
     });
   }
 

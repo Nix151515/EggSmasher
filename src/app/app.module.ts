@@ -9,6 +9,7 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
 import { UsersService } from './services/users.service';
 import { GameComponent } from './components/game/game.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [SocketsService, UsersService],
   bootstrap: [AppComponent]
