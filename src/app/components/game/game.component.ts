@@ -63,9 +63,6 @@ export class GameComponent implements OnInit {
 
   startSending($event) {
     this.sending = true;
-    // console.log($event)
-    // this.timeout = setInterval(() => console.log($event.clientX, $event.clientY), 300)
-
   }
 
   stopSending($event) {
