@@ -5,7 +5,7 @@ import * as socketIo from 'socket.io-client';
 //   providedIn: 'root'
 // });
 
-const SERVER_URL = 'http://192.168.0.171:3000';
+const SERVER_URL = 'https://haisaciocnim.herokuapp.com/';
 // const SERVER_URL = 'http://localhost:3000/';
 
 export class SocketsService {

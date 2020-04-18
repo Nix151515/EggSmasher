@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UsersService {
-  url = "http://192.168.0.171:3000/users";
+  url = "https://haisaciocnim.herokuapp.com/users";
   constructor(private http: HttpClient, private router : Router) { }
 
   getUsers() {
