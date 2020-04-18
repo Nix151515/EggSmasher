@@ -10,3 +10,12 @@
         </li>
     </ul>
 </div>
+
+
+<div id="modalLobby" class="modal" #modal>
+    <div class="modal-content">
+      <p>{{modalMessage}}</p>
+      <button class="closeModal" class="btn btn-primary" style="margin-bottom: 15px;" (click)="play(opponentData)"> Acceptă </button>
+      <button class="closeModal" class="btn btn-primary" (click)="closeModal()"> Nu joc </button>
+    </div>
+</div>
