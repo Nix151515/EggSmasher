@@ -1,4 +1,12 @@
-
-<h1> Welcome {{username}} </h1>
-<h3> Connected users : </h3>
-<p (click)="onUserClick(user)" *ngFor='let user of connectedUsers'> {{user.username}}</p>
+<div class="middleCentered">
+    <h1> Welcome {{username}} !</h1>
+    <h3> Connected users : </h3>
+    <ul>
+        <li (click)="onUserClick(user)" *ngFor='let user of connectedUsers'> {{user.username}}
+            <span *ngIf='username != user.username'>
+                <button class="btn btn-success" (click)="onUserClick(user)"> Play </button>
+            </span>
+            <span *ngIf='username == user.username'> (You) </span>
+        </li>
+    </ul>
+</div>

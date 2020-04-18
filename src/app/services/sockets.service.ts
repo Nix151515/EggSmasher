@@ -5,7 +5,8 @@ import * as socketIo from 'socket.io-client';
 //   providedIn: 'root'
 // });
 
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URL = 'http://192.168.0.171:3000';
+// const SERVER_URL = 'http://localhost:3000/';
 
 export class SocketsService {
   private socket;
@@ -36,12 +37,12 @@ export class SocketsService {
     });
   }
 
-/* Invitations */
+  /* Invitations */
 
-  
+
   /* Send your request to server */
-  public sendRequestToPlayer(dest: string, data: any): void {
-    this.socket.emit('request', { dest, data });
+  public sendRequestToPlayer(dest: string, data: any, first: any): void {
+    this.socket.emit('request', { dest, data, first });
   }
 
   /* Listen to requests */
@@ -52,7 +53,7 @@ export class SocketsService {
   }
 
   /* Mouse tracking sockets */
-  
+
   /* Send your mouse to server */
   public sendMouseMove(dest: string, data: any): void {
     this.socket.emit('mouse_move', { dest, data });
@@ -66,4 +67,32 @@ export class SocketsService {
     });
   }
 
+
+
+  /* Color changes */
+
+  /* Send your color to server */
+  public sendColor(dest: string, data: any): void {
+    this.socket.emit('color_change', { dest, data });
+  }
+
+  /* Listen to color changes */
+  public onColorReceived(): Observable<any> {
+    return new Observable<any>(observer => {
+      // if socket id ( getSession  ==  observer.sessionId)
+      this.socket.on('color_change', (data: any) => observer.next(data));
+    });
+  }
+
+
+  /* Send end game */
+  public sendFinish(dest: string, data: any): void {
+    this.socket.emit('finish', { dest, data });
+  }
+
+  public receiveFinish(): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('finish', (data: any) => observer.next(data));
+    });
+  }
 }

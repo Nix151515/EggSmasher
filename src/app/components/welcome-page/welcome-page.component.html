@@ -1,5 +1,11 @@
-<div style="margin-left: 50%">
-<p>Set username:</p>
-<input [(ngModel)]="username" required>
-<button (click)="setUsername()"> Confirm </button>
+<div class="middleCentered">
+    <h1 class="textCentered" id='title'> Egg Smasher </h1>
+    <form>
+        <div class="form-group">
+            <label for="username">Set username</label>
+            <input type="text" class="form-control" id="username" aria-describedby="username" [(ngModel)]="username"
+                required [ngModelOptions]="{standalone: true}">
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="setUsername()">Confirm</button>
+    </form>
 </div>

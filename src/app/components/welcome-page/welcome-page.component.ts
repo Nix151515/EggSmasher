@@ -23,10 +23,6 @@ export class WelcomePageComponent implements OnInit {
   setUsername() {
     localStorage.setItem('username', this.username);
     this.socketsService.sendUsername(this.username);
-  //later
-    // this.usersService.postUser({ 'username': this.username })
-    //   .subscribe((res) => console.log('post', res))
-    // Save in db
     this.router.navigate(['/lobby']);
   }
 }

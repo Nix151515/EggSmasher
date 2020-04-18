@@ -1,9 +1,21 @@
+<div class="left statusText" [ngStyle]="{'top': isAttacker ? '100px' : '500px'}"> {{isAttacker ? 'You hit' : 'You hold'}} </div>
+
 <div class="attacker" #egg 
     (mousedown)="startSending($event)" 
     (mouseup)="stopSending($event)"
     (mouseleave)="stopSending($event)"></div>
 
-<!-- [ngClass]="{'red': isAttacker, 'blue': !isAttacker}" -->
 <div class="defender" #egg2></div>
-<!-- </div> -->
-<button (click)='printEgg()'>click</button>
+<!-- <button (click)='printEgg()'>click</button> -->
+<div class="left" [ngStyle]="{'top': isAttacker ? '175px' : '575px'}">
+    <!-- <label for="eggColor">Egg Color</label>
+    <input  type="color" id="eggColor" name="eggColor" (input)="setColor($event)" [(ngModel)]="eggColor"> -->
+
+    <form>
+        <div class="form-group">
+            <label for="eggColor">Egg Color</label>
+            <input type="color" class="form-control" id="eggColor" aria-describedby="eggColor" [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="eggColor" (input)="setColor($event)">
+        </div>
+    </form>
+</div>

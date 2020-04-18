@@ -14,17 +14,13 @@ export class LobbyComponent implements OnInit {
   accepted = false;
   listenToRequests;
   connectedUsers = [];
-  constructor(public socketsService: SocketsService,
-    public usersService: UsersService,
-    public router: Router) {
-    localStorage.removeItem('opponent')
-    this.username = localStorage.getItem('username')
-    // later
-    // this.usersService.getUsers().subscribe((res: any) => {
-    //   res.forEach(user => {
-    //     this.connectedUsers.push(user)
-    //   });
-    // })
+  constructor(public socketsService: SocketsService, public usersService: UsersService, public router: Router) {
+    localStorage.removeItem('opponent');
+    localStorage.removeItem('isAttacker');
+    this.username = localStorage.getItem('username');
+    this.usersService.getUsers().subscribe((users: []) => {
+      this.connectedUsers.push(...users);
+    });
   }
 
   ngOnInit(): void {
@@ -32,21 +28,23 @@ export class LobbyComponent implements OnInit {
     this.socketsService
       .onNewUsers()
       .subscribe((data: any) => {
-        console.log(data)
+        console.log(data);
         this.connectedUsers.push(data);
       });
 
     this.listenToRequests = this.socketsService.onRequestReceived()
       .subscribe((res: any) => {
-        console.log('send data from', res)
-        if (confirm("Play a game with " + res.data + '?')) {
+        console.log('send data from', res);
+        if (confirm('Play a game with ' + res.data + '?')) {
           this.accepted = true;
-          this.socketsService.sendRequestToPlayer(res.src, this.username)
-          localStorage.setItem('opponentId', res.src)
-          localStorage.setItem('opponent', res.data)
+          console.log(res);
+          this.socketsService.sendRequestToPlayer(res.src, this.username, null);
+          localStorage.setItem('opponentId', res.src);
+          localStorage.setItem('opponent', res.data);
+          res.first === true ? localStorage.setItem('isAttacker', 'true') : localStorage.setItem('isAttacker', 'false');
           this.listenToRequests.unsubscribe();
           this.router.navigate(['/game']);
-          console.log('accepted')
+          console.log('accepted');
         } else {
           console.log('canceled');
         }
@@ -54,8 +52,10 @@ export class LobbyComponent implements OnInit {
   }
 
   onUserClick(event) {
-    event.socket_id ? this.socketsService.sendRequestToPlayer(event.socket_id, this.username) : {};
-    console.log('user click', event)
+    if (event.socket_id) {
+      this.socketsService.sendRequestToPlayer(event.socket_id, this.username, true);
+    }
+    console.log('user click', event);
   }
 
 
