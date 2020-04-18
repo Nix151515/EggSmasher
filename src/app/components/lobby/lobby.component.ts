@@ -32,10 +32,17 @@ export class LobbyComponent implements OnInit {
         this.connectedUsers.push(data);
       });
 
+    this.socketsService
+      .onUserLeave()
+      .subscribe((data: any) => {
+        console.log(data);
+        this.connectedUsers = this.connectedUsers.filter(el =>  el.socket_id != data.socket_id)
+      });
+
     this.listenToRequests = this.socketsService.onRequestReceived()
       .subscribe((res: any) => {
         console.log('send data from', res);
-        if (confirm('Play a game with ' + res.data + '?')) {
+        if (confirm('Vrei să joci cu ' + res.data + '?')) {
           this.accepted = true;
           console.log(res);
           this.socketsService.sendRequestToPlayer(res.src, this.username, null);

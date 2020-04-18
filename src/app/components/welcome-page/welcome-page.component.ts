@@ -18,11 +18,13 @@ export class WelcomePageComponent implements OnInit {
   ngOnInit(): void {
     localStorage.removeItem('username');
     localStorage.removeItem('opponent');
-   }
+  }
 
   setUsername() {
-    localStorage.setItem('username', this.username);
-    this.socketsService.sendUsername(this.username);
-    this.router.navigate(['/lobby']);
+    if (this.username) {
+      localStorage.setItem('username', this.username);
+      this.socketsService.sendUsername(this.username);
+      this.router.navigate(['/lobby']);
+    }
   }
 }

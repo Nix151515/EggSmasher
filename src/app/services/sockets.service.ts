@@ -37,6 +37,12 @@ export class SocketsService {
     });
   }
 
+  public onUserLeave(): Observable<any> {
+    return new Observable<any>(observer => {
+      this.socket.on('user_leave', (data: any) => observer.next(data));
+    })
+  }
+
   /* Invitations */
 
 

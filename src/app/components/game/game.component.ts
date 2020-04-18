@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class GameComponent implements OnInit {
   @ViewChild('egg') egg;
   @ViewChild('egg2') egg2;
+  @ViewChild('modal') modal;
   opponent = '';
   opponentId = '';
   username = '';
@@ -23,25 +24,51 @@ export class GameComponent implements OnInit {
   colorListen;
   endGameListen;
   eggColor;
+  isMobile;
+  eggHit = false;
+  modalMessage = '';
 
   @HostListener('window:mousemove', ['$event'])
   showCoords(event: MouseEvent) {
-    this.mouseX = event.clientX;
-    this.mouseY = event.clientY;
-    if (!this.isAttacker) {
-      console.log('def');
-      return;
+    if (!this.isMobile) {
+      this.mouseX = event.clientX;
+      this.mouseY = event.clientY;
+      if (!this.isAttacker) {
+        console.log('def');
+        return;
+      }
+      this.mouseListen.unsubscribe();
+      this.endGameListen.unsubscribe();
+      if (this.sending) {
+        this.moveEgg(this.mouseX, this.mouseY);
+        // console.log('Atk', this.mouseX, this.mouseY)
+        this.socketsService.sendMouseMove(this.opponentId, { x: this.mouseX, y: this.mouseY });
+      }
     }
-    this.mouseListen.unsubscribe();
-    this.endGameListen.unsubscribe();
-    if (this.sending) {
-      this.moveEgg(this.mouseX, this.mouseY);
-      // console.log('Atk', this.mouseX, this.mouseY)
-      this.socketsService.sendMouseMove(this.opponentId, { x: this.mouseX, y: this.mouseY });
+  }
+
+  @HostListener('window:touchmove', ['$event'])
+  showCoords2(event: TouchEvent) {
+    if (this.isMobile) {
+      let touchLocation = event.targetTouches[0];
+      this.mouseX = touchLocation.clientX;
+      this.mouseY = touchLocation.clientY;
+      if (!this.isAttacker) {
+        console.log('def');
+        return;
+      }
+      this.mouseListen.unsubscribe();
+      this.endGameListen.unsubscribe();
+      if (this.sending) {
+        this.moveEgg(this.mouseX, this.mouseY);
+        // console.log('Atk', this.mouseX, this.mouseY)
+        this.socketsService.sendMouseMove(this.opponentId, { x: this.mouseX, y: this.mouseY });
+      }
     }
   }
 
   constructor(public socketsService: SocketsService, public usersService: UsersService, public router: Router) {
+    this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     this.username = localStorage.getItem('username');
     this.opponentId = localStorage.getItem('opponentId');
     this.opponent = localStorage.getItem('opponent');
@@ -69,11 +96,16 @@ export class GameComponent implements OnInit {
     this.endGameListen = this.socketsService.receiveFinish()
       .subscribe((res: any) => {
         console.log(res);
-        if (res.data === true) {
-          alert('You won');
-        } else {
-          alert('You lost');
-        }
+        this.egg.nativeElement.style.top = this.egg2.nativeElement.offsetTop;
+        setTimeout(() => {
+          if (res.data === true) {
+            // alert('L-ai luat');
+            this.showModal('L-ai luat')
+          } else {
+            // alert('Te-a facut');
+            this.showModal('Te-a facut');
+          }
+        }, 50);
       });
   }
 
@@ -98,23 +130,30 @@ export class GameComponent implements OnInit {
     this.egg.nativeElement.style.left = 45 + '%';
     this.egg.nativeElement.style.top = y - 75 + 'px';
 
-    if (y >= this.egg2.nativeElement.offsetTop - 70 && this.isAttacker) {
+    if (y >= this.egg2.nativeElement.offsetTop - 70 && this.isAttacker && this.eggHit === false) {
+      this.eggHit = true;
       const win = Math.random() >= 0.5;
       console.log('cioc');
       this.socketsService.sendFinish(this.opponentId, !win);
-      if (win) {
-        alert('You won');
-      }
-      else {
-        alert('You lost');
-      }
-      this.stopSending(null);
-      this.resetEggPosition();
+      setTimeout(() => {
+        if (win) {
+          this.showModal('L-ai spart');
+          // alert('L-ai spart !');
+        }
+        else {
+          this.showModal('Te-a spart');
+          // alert('Te-a spart');
+        }
+        this.stopSending(null);
+      }, 50);
+
+
     }
   }
 
   resetEggPosition() {
     this.egg.nativeElement.style.top = '100px';
+    this.eggHit = false;
   }
 
   setColor($event) {
@@ -126,6 +165,20 @@ export class GameComponent implements OnInit {
       this.socketsService.sendColor(this.opponentId, this.eggColor);
     }
     console.log($event);
+  }
+
+
+  // Modal Methods 
+  showModal(message) {
+    console.log(this.modal)
+    this.modalMessage = message;
+    this.modal.nativeElement.style.display = "block";
+  }
+
+  closeModal() {
+    this.modal.nativeElement.style.display = "none";
+    this.modalMessage = '';
+    this.resetEggPosition();
   }
 
 }

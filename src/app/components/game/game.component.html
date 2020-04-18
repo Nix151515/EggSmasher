@@ -1,10 +1,15 @@
-<div class="left statusText" [ngStyle]="{'top': isAttacker ? '100px' : '500px'}"> {{isAttacker ? 'You hit' : 'You hold'}} </div>
+<div class="left statusText" [ngStyle]="{'top': isAttacker ? '100px' : '500px'}"> {{isAttacker ? 'Tu lovești' : 'Tu ții'}} </div>
 
-<div class="attacker" #egg 
+<div *ngIf="!isMobile" class="attacker" #egg 
     (mousedown)="startSending($event)" 
     (mouseup)="stopSending($event)"
-    (mouseleave)="stopSending($event)"></div>
-
+></div>
+    <!-- (mouseleave)="stopSending($event)" -->
+<div *ngIf='isMobile' class="attacker" #egg 
+    (touchstart)="startSending($event)"
+    (touchmove)="startSending($event)"
+    (touchend)="stopSending($event)"></div>
+<p> Telefon : {{isMobile}}</p>
 <div class="defender" #egg2></div>
 <!-- <button (click)='printEgg()'>click</button> -->
 <div class="left" [ngStyle]="{'top': isAttacker ? '175px' : '575px'}">
@@ -13,9 +18,18 @@
 
     <form>
         <div class="form-group">
-            <label for="eggColor">Egg Color</label>
+            <label for="eggColor">Culoare ou</label>
             <input type="color" class="form-control" id="eggColor" aria-describedby="eggColor" [ngModelOptions]="{standalone: true}"
             [(ngModel)]="eggColor" (input)="setColor($event)">
         </div>
     </form>
 </div>
+
+
+<div id="modal" class="modal" #modal>
+    <div class="modal-content">
+      <p>{{modalMessage}}</p>
+      <button id="closeModal" class="btn btn-primary" (click)="closeModal()"> Close </button>
+    </div>
+</div>
+  

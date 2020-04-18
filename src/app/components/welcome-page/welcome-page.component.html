@@ -2,10 +2,20 @@
     <h1 class="textCentered" id='title'> Egg Smasher </h1>
     <form>
         <div class="form-group">
-            <label for="username">Set username</label>
+            <label for="username">Nume</label>
             <input type="text" class="form-control" id="username" aria-describedby="username" [(ngModel)]="username"
                 required [ngModelOptions]="{standalone: true}">
         </div>
-        <button type="submit" class="btn btn-primary" (click)="setUsername()">Confirm</button>
+        <button type="submit" class="btn btn-primary" (click)="setUsername()">Confirmă</button>
     </form>
 </div>
+
+
+<!-- Trigger/Open The Modal -->
+<!-- <button id="modalBtn" (click)="showModal()">Open Modal</button> -->
+<!-- <div id="modal" class="modal" #modal>
+  <div class="modal-content">
+    <p>You lose</p>
+    <button id="closeModal" class="btn btn-primary" (click)="closeModal()"> Close </button>
+  </div>
+</div> -->

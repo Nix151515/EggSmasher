@@ -1,12 +1,12 @@
 <div class="middleCentered">
-    <h1> Welcome {{username}} !</h1>
-    <h3> Connected users : </h3>
+    <h1> Bine ai venit, {{username}} !</h1>
+    <h3> Jucători : </h3>
     <ul>
-        <li (click)="onUserClick(user)" *ngFor='let user of connectedUsers'> {{user.username}}
+        <li *ngFor='let user of connectedUsers'> {{user.username}}
             <span *ngIf='username != user.username'>
-                <button class="btn btn-success" (click)="onUserClick(user)"> Play </button>
+                <button class="btn btn-success" (click)="onUserClick(user)"> Provoacă </button>
             </span>
-            <span *ngIf='username == user.username'> (You) </span>
+            <span *ngIf='username == user.username'> (Tu) </span>
         </li>
     </ul>
 </div>
